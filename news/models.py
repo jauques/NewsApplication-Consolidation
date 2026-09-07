@@ -69,10 +69,13 @@ class Publisher(models.Model):
     description = models.TextField(blank=True)
 
     def __str__(self):
+        """Return the username as the user's readable representation.
+
+        Returns:
+            str: The username displayed in Django admin and other
+            places where this user is converted to text.
         """
-        Return the publisher name for readable display.
-        """
-        return self.name
+        return self.username
 
 
 class Article(models.Model):
