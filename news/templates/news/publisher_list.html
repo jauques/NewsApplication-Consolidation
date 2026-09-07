@@ -1,0 +1,53 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>Publishers</h1>
+
+{% if user.is_authenticated and user.role == "Editor" %}
+<p>
+    <a href="{% url 'publisher-create' %}">
+        Create Publisher
+    </a>
+</p>
+{% endif %}
+
+<hr>
+
+{% for publisher in publishers %}
+
+<div class="card">
+
+    <h2>{{ publisher.name }}</h2>
+
+    <p>
+        {{ publisher.description|default:"No description provided." }}
+    </p>
+
+    {% if user.is_authenticated and user.role == "Editor" %}
+
+        <a href="{% url 'publisher-edit' publisher.id %}">
+            Edit
+        </a>
+
+        |
+
+        <a href="{% url 'publisher-delete' publisher.id %}">
+            Delete
+        </a>
+
+    {% endif %}
+
+</div>
+
+{% empty %}
+
+<p>No publishers are currently available.</p>
+
+{% endfor %}
+
+<p>
+    <a href="{% url 'home' %}">Back to Home</a>
+</p>
+
+{% endblock %}

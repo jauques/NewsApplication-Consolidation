@@ -1,0 +1,45 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>Approved Articles</h1>
+
+{% for article in articles %}
+
+<div class="card">
+
+    <h3>{{ article.title }}</h3>
+
+    <p>{{ article.content|truncatewords:40 }}</p>
+
+    <a href="{% url 'article-detail' article.id %}">
+        View
+    </a>
+
+    {% if user.is_authenticated %}
+        {% if user.role == "Editor" or article.author == user %}
+
+            |
+
+            <a href="{% url 'article-edit' article.id %}">
+                Edit
+            </a>
+
+            |
+
+            <a href="{% url 'article-delete' article.id %}">
+                Delete
+            </a>
+
+        {% endif %}
+    {% endif %}
+
+</div>
+
+{% empty %}
+
+<p>No articles found.</p>
+
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>Delete Publisher</h1>
+
+<p>
+    Are you sure you want to delete the following publisher?
+</p>
+
+<div class="card">
+
+    <h2>{{ publisher.name }}</h2>
+
+    <p>
+        {{ publisher.description|default:"No description provided." }}
+    </p>
+
+</div>
+
+<p>
+    Deleting the publisher will not delete its articles. The publisher
+    field on associated articles will be cleared.
+</p>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    <button type="submit">
+        Yes, Delete Publisher
+    </button>
+
+</form>
+
+<p>
+    <a href="{% url 'publisher-list' %}">
+        Cancel
+    </a>
+</p>
+
+{% endblock %}

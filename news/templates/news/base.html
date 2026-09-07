@@ -1,0 +1,131 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}News Application{% endblock %}
+    </title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #ffffff;
+            color: #111111;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: #003b70;
+            padding: 12px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .user-details {
+            margin-left: auto;
+            color: white;
+        }
+
+        .logout-form {
+            display: inline;
+            margin: 0;
+        }
+
+        .logout-button {
+            border: none;
+            padding: 0;
+            background: none;
+            color: white;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .card {
+            border: 1px solid #cccccc;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #8ab98a;
+            background-color: #e8f5e9;
+        }
+
+        .action-link {
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'article-list' %}">Articles</a>
+
+    {% if user.is_authenticated %}
+        {% if user.role == "Reader" %}
+            <a href="{% url 'subscribed-articles' %}">My Subscriptions</a>
+        {% elif user.role == "Journalist" %}
+            <a href="{% url 'journalist-dashboard' %}">Journalist Dashboard</a>
+            <a href="{% url 'article-create' %}">Create Article</a>
+        {% elif user.role == "Editor" %}
+            <a href="{% url 'editor-dashboard' %}">Editor Dashboard</a>
+        {% endif %}
+
+        <span class="user-details">
+            {{ user.username }} | {{ user.role }}
+        </span>
+
+        <form class="logout-form" action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button class="logout-button" type="submit">Logout</button>
+        </form>
+    {% else %}
+        <a href="{% url 'register' %}">Register</a>
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+</nav>
+
+<div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

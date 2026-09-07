@@ -1,0 +1,171 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>Editor Dashboard</h1>
+
+<p>
+    <a href="{% url 'publisher-create' %}">Create Publisher</a>
+
+    |
+
+    <a href="{% url 'publisher-list' %}">View Publishers</a>
+
+    |
+
+    <a href="{% url 'newsletter-create' %}">Create Newsletter</a>
+
+    |
+
+    <a href="{% url 'newsletter-list' %}">View Newsletters</a>
+</p>
+
+<hr>
+
+<h2>Pending Articles</h2>
+
+{% for article in pending_articles %}
+
+<div class="card">
+
+    <h3>{{ article.title }}</h3>
+
+    <p>
+        <strong>Author:</strong> {{ article.author }}
+    </p>
+
+    <p>
+        {{ article.content|truncatewords:30 }}
+    </p>
+
+    <a href="{% url 'article-detail' article.id %}">View</a>
+
+    |
+
+    <a href="{% url 'approve-article' article.id %}">Approve</a>
+
+    |
+
+    <a href="{% url 'reject-article' article.id %}">Reject</a>
+
+    |
+
+    <a href="{% url 'article-edit' article.id %}">Edit</a>
+
+    |
+
+    <a href="{% url 'article-delete' article.id %}">Delete</a>
+
+</div>
+
+{% empty %}
+
+<p>No pending articles.</p>
+
+{% endfor %}
+
+<hr>
+
+<h2>Approved Articles</h2>
+
+{% for article in approved_articles %}
+
+<div class="card">
+
+    <h3>{{ article.title }}</h3>
+
+    <p>
+        <strong>Author:</strong> {{ article.author }}
+    </p>
+
+    <p>
+        {{ article.content|truncatewords:30 }}
+    </p>
+
+    <a href="{% url 'article-detail' article.id %}">View</a>
+
+    |
+
+    <a href="{% url 'article-edit' article.id %}">Edit</a>
+
+    |
+
+    <a href="{% url 'article-delete' article.id %}">Delete</a>
+
+</div>
+
+{% empty %}
+
+<p>No approved articles available.</p>
+
+{% endfor %}
+
+<hr>
+
+<h2>Publishers</h2>
+
+<p>
+    <a href="{% url 'publisher-create' %}">Create a New Publisher</a>
+</p>
+
+{% for publisher in publishers %}
+
+<div class="card">
+
+    <h3>{{ publisher.name }}</h3>
+
+    <p>{{ publisher.description|default:"No description provided." }}</p>
+
+    <a href="{% url 'publisher-edit' publisher.id %}">Edit</a>
+
+    |
+
+    <a href="{% url 'publisher-delete' publisher.id %}">Delete</a>
+
+</div>
+
+{% empty %}
+
+<p>No publishers available.</p>
+
+{% endfor %}
+
+<hr>
+
+<h2>Newsletters</h2>
+
+<p>
+    <a href="{% url 'newsletter-create' %}">Create a New Newsletter</a>
+</p>
+
+{% for newsletter in newsletters %}
+
+<div class="card">
+
+    <h3>{{ newsletter.title }}</h3>
+
+    <p>
+        <strong>Author:</strong> {{ newsletter.author }}
+    </p>
+
+    <p>{{ newsletter.description|truncatewords:30 }}</p>
+
+    <a href="{% url 'newsletter-detail' newsletter.id %}">View</a>
+
+    |
+
+    <a href="{% url 'newsletter-edit' newsletter.id %}">Edit</a>
+
+    |
+
+    <a href="{% url 'newsletter-delete' newsletter.id %}">Delete</a>
+
+</div>
+
+{% empty %}
+
+<p>No newsletters available.</p>
+
+{% endfor %}
+
+{% endblock %}

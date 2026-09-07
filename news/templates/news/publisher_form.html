@@ -1,0 +1,25 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>{{ page_title|default:"Publisher" }}</h1>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Save Publisher
+    </button>
+
+</form>
+
+<p>
+    <a href="{% url 'publisher-list' %}">
+        Cancel
+    </a>
+</p>
+
+{% endblock %}

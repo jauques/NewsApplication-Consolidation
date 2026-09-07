@@ -1,0 +1,40 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>Delete Newsletter</h1>
+
+<p>
+    Are you sure you want to delete the following newsletter?
+</p>
+
+<div class="card">
+
+    <h2>{{ newsletter.title }}</h2>
+
+    <p>{{ newsletter.description }}</p>
+
+    <p>
+        <strong>Author:</strong>
+        {{ newsletter.author }}
+    </p>
+
+</div>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    <button type="submit">
+        Yes, Delete Newsletter
+    </button>
+
+</form>
+
+<p>
+    <a href="{% url 'newsletter-detail' newsletter.id %}">
+        Cancel
+    </a>
+</p>
+
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>Journalist Dashboard</h1>
+
+<p>Welcome, {{ user.username }}</p>
+
+<p>
+    <a href="{% url 'article-create' %}">Create Article</a>
+
+    |
+
+    <a href="{% url 'newsletter-create' %}">Create Newsletter</a>
+
+    |
+
+    <a href="{% url 'newsletter-list' %}">View Newsletters</a>
+</p>
+
+<hr>
+
+<h2>My Articles</h2>
+
+{% for article in articles %}
+
+<div class="card">
+
+    <h3>{{ article.title }}</h3>
+
+    <p>{{ article.content|truncatewords:20 }}</p>
+
+    <p>
+        <strong>Status:</strong>
+
+        {% if article.approved %}
+            Approved
+        {% else %}
+            Pending Approval
+        {% endif %}
+    </p>
+
+    <a href="{% url 'article-detail' article.id %}">View</a>
+
+    |
+
+    <a href="{% url 'article-edit' article.id %}">Edit</a>
+
+    |
+
+    <a href="{% url 'article-delete' article.id %}">Delete</a>
+
+</div>
+
+{% empty %}
+
+<p>No articles created yet.</p>
+
+{% endfor %}
+
+<hr>
+
+<h2>My Newsletters</h2>
+
+<p>
+    <a href="{% url 'newsletter-create' %}">Create a New Newsletter</a>
+</p>
+
+{% for newsletter in newsletters %}
+
+<div class="card">
+
+    <h3>{{ newsletter.title }}</h3>
+
+    <p>{{ newsletter.description|truncatewords:30 }}</p>
+
+    <a href="{% url 'newsletter-detail' newsletter.id %}">View</a>
+
+    |
+
+    <a href="{% url 'newsletter-edit' newsletter.id %}">Edit</a>
+
+    |
+
+    <a href="{% url 'newsletter-delete' newsletter.id %}">Delete</a>
+
+</div>
+
+{% empty %}
+
+<p>No newsletters created yet.</p>
+
+{% endfor %}
+
+{% endblock %}

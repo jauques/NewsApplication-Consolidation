@@ -1,0 +1,78 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>{{ newsletter.title }}</h1>
+
+<p>
+    <strong>Author:</strong>
+    {{ newsletter.author }}
+</p>
+
+<p>
+    <strong>Created:</strong>
+    {{ newsletter.created_at|date:"d F Y H:i" }}
+</p>
+
+<p>
+    {{ newsletter.description }}
+</p>
+
+<hr>
+
+<h2>Articles in this Newsletter</h2>
+
+{% for article in articles %}
+
+<div class="card">
+
+    <h3>{{ article.title }}</h3>
+
+    <p>
+        <strong>Author:</strong>
+        {{ article.author }}
+    </p>
+
+    <p>
+        {{ article.content|truncatewords:30 }}
+    </p>
+
+    <a href="{% url 'article-detail' article.id %}">
+        Read Article
+    </a>
+
+</div>
+
+{% empty %}
+
+<p>No articles have been added to this newsletter.</p>
+
+{% endfor %}
+
+<hr>
+
+{% if user.is_authenticated %}
+
+    {% if user.role == "Editor" or newsletter.author == user %}
+
+        <a href="{% url 'newsletter-edit' newsletter.id %}">
+            Edit Newsletter
+        </a>
+
+        |
+
+        <a href="{% url 'newsletter-delete' newsletter.id %}">
+            Delete Newsletter
+        </a>
+
+        |
+
+    {% endif %}
+
+{% endif %}
+
+<a href="{% url 'newsletter-list' %}">
+    Back to Newsletters
+</a>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>My Subscriptions</h1>
+
+{% if articles %}
+    {% for article in articles %}
+        <div>
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.content|truncatewords:20 }}</p>
+            {% url 'article_detail' article.pk %}View</a>
+        </div>
+        <hr>
+    {% endfor %}
+{% else %}
+    <p>You are not subscribed to any publishers yet.</p>
+{% endif %}
+
+{% endblock %}

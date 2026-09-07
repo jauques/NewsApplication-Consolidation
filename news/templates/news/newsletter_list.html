@@ -1,0 +1,82 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>Newsletters</h1>
+
+{% if user.is_authenticated %}
+    {% if user.role == "Journalist" or user.role == "Editor" %}
+
+        <p>
+            <a href="{% url 'newsletter-create' %}">
+                Create Newsletter
+            </a>
+        </p>
+
+    {% endif %}
+{% endif %}
+
+<hr>
+
+{% for newsletter in newsletters %}
+
+<div class="card">
+
+    <h2>{{ newsletter.title }}</h2>
+
+    <p>
+        <strong>Author:</strong>
+        {{ newsletter.author }}
+    </p>
+
+    <p>
+        <strong>Created:</strong>
+        {{ newsletter.created_at|date:"d F Y H:i" }}
+    </p>
+
+    <p>
+        {{ newsletter.description|truncatewords:40 }}
+    </p>
+
+    <p>
+        <strong>Number of articles:</strong>
+        {{ newsletter.articles.count }}
+    </p>
+
+    <a href="{% url 'newsletter-detail' newsletter.id %}">
+        View
+    </a>
+
+    {% if user.is_authenticated %}
+
+        {% if user.role == "Editor" or newsletter.author == user %}
+
+            |
+
+            <a href="{% url 'newsletter-edit' newsletter.id %}">
+                Edit
+            </a>
+
+            |
+
+            <a href="{% url 'newsletter-delete' newsletter.id %}">
+                Delete
+            </a>
+
+        {% endif %}
+
+    {% endif %}
+
+</div>
+
+{% empty %}
+
+<p>No newsletters are currently available.</p>
+
+{% endfor %}
+
+<p>
+    <a href="{% url 'home' %}">Back to Home</a>
+</p>
+
+{% endblock %}

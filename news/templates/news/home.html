@@ -1,0 +1,31 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>News Application</h1>
+
+<p>Welcome to the News Portal.</p>
+
+<h2>Latest Approved Articles</h2>
+
+{% for article in articles %}
+
+<div class="card">
+
+    <h3>{{ article.title }}</h3>
+
+    <p>{{ article.content|truncatewords:30 }}</p>
+
+    <a href="{% url 'article-detail' article.id %}">
+        Read More
+    </a>
+
+</div>
+
+{% empty %}
+
+<p>No approved articles available.</p>
+
+{% endfor %}
+
+{% endblock %}

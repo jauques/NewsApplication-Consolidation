@@ -1,0 +1,30 @@
+{% extends "news/base.html" %}
+
+{% block content %}
+
+<h1>{{ page_title|default:"Newsletter" }}</h1>
+
+<p>
+    Enter the newsletter details and select the articles that should
+    be included.
+</p>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Save Newsletter
+    </button>
+
+</form>
+
+<p>
+    <a href="{% url 'newsletter-list' %}">
+        Cancel
+    </a>
+</p>
+
+{% endblock %}
