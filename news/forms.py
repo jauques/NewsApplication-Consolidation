@@ -29,8 +29,16 @@ class CustomUserRegistrationForm(UserCreationForm):
         )
 
     def clean_email(self):
-        """
-        Ensure that each email address belongs to only one user.
+        """Validate and normalise the registration email address.
+
+        Returns:
+            str: The email address with surrounding whitespace removed
+            and all letters converted to lowercase.
+
+        Raises:
+            forms.ValidationError: If another user already has this
+                email address, ignoring letter case.
+        
         """
 
         email = self.cleaned_data["email"].strip().lower()

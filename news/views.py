@@ -1,4 +1,11 @@
-"""Website and REST API views for the News Application."""
+"""Handle website requests and REST API operations for the News Application.
+
+Website views support registration, article publishing, editor approval,
+publisher management, newsletters, and subscription filtering.
+
+REST API views provide authenticated article retrieval and enforce
+role-based rules for creating, updating, and deleting articles.
+"""
 
 from django.contrib import messages
 from django.contrib.auth import login
